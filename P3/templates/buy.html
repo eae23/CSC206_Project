@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Geneva Auto{% endblock title}
+
+{% block body %}
+<body>
+    <h1>Manufacturers</h1>
+    <form action="{{ url_for('buy') }}" method="post" class="search-form">
+        <table>
+            <tr>
+                <th>Manufacturer ID</th>
+                <th>Manufacturer Name</th>
+            </tr>
+            <tr>
+                <td>723</td>
+                <td>Chevrolet</td>
+            </tr>
+            <tr>
+                <td>329</td>
+                <td>Ford</td>
+            </tr>
+        </table>
+    </form>
+</body>
+{% endblock %}
+
+{% include 'footer.html' %}

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Vehicle Details{% endblock %}
+
+{% block body %}
+<h1 class="title is-3">Vehicle Details</h1>
+
+<div class="details-display">
+    {% for vehicle in vehicles %}
+    <div class="detail-info"><strong>VIN:</strong>  {{ vehicle['vin'] }}</div>
+    <div class="detail-info"><strong>Vehicle Type:</strong>  {{ vehicle['vehicle_type_name'] }}</div>
+    <div class="detail-info"><strong>Model Year:</strong>  {{ vehicle['model_year'] }}</div>
+    <div class="detail-info"><strong>Manufacturer:</strong>  {{ vehicle['manufacturer_name'] }}</div>
+    <div class="detail-info"><strong>Model Name:</strong>  {{ vehicle['model_name'] }}</div>
+    <div class="detail-info"><strong>Color:</strong>  {{ vehicle['color'] }}</div>
+    <div class="detail-info"><strong>Description:</strong>  {{ vehicle['description'] }}</div>
+    <div class="detail-info"><strong>Sales Price:</strong>  ${{ vehicle['sales_price'] }}</div>
+    {% endfor %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,38 @@
+<nav>
+    <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="{{ url_for('customers') }}">Track Customers</a></li>
+        <li><a href="{{ url_for('buy') }}">Buy Used Cars</a></li>
+        <li><a href="{{ url_for('sell') }}">Sell Used Cars</a></li>
+        <li><a href="{{ url_for('parts') }}">Track Repair Parts</a></li>
+        <li><a href="{{ url_for('suppliers') }}">Manage Parts Suppliers</a></li>
+        <li><a href="{{ url_for('vehicles_search') }}">Vehicles Search</a></li>
+        <li><a href="{{ url_for('reports') }}">Reports</a>
+            <ul class="dropdown">
+                <li><a href="{{ url_for('sales_productivity') }}">Sales Productivity</a></li>
+                <li><a href="{{ url_for('seller_history') }}">Seller History</a></li>
+                <li><a href="{{ url_for('part_statistics') }}">Part Statistics</a></li>
+            </ul>
+        </li>
+        <li><button id="loginButton" type="button" class="btn btn-dark" onclick="document.getElementById('loginModal').style.display='block'">Login</button></li>
+        <li><button id="signOutButton" type="button" class="btn btn-dark">Sign Out</button></li>
+    </ul>
+    <div id="loginModal" class="modal">
+
+        <form id="loginForm" class="modal-content" method="post">
+            <div class="xButton">
+                <span onclick="document.getElementById('loginModal').style.display='none'" class="close"
+                    title="Close Modal">&times;</span>
+            </div>
+            <div class="container">
+                <label for="username"><b>Username</b></label>
+                <input id="username" type="text" placeholder="Enter Username" name="username" required>
+
+                <label for="password"><b>Password</b></label>
+                <input id="password" type="password" placeholder="Enter Password" name="password" required>
+
+                <button type="submit" id="loginSubmitBtn" class="btn btn-primary">Login</button>
+            </div>
+        </form>
+    </div>
+</nav>

@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}Geneva Auto{% endblock title}
+
+{% block body %}
+<body>
+    <form action="{{ url_for('reports') }}" method="post" class="search-form"></form>
+</body>
+{% endblock %}
+
+{% include 'footer.html' %}

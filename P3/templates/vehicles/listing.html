@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Vehicle Listing{% endblock %}
+
+{% block body %}
+<h1 class="title is-3">Vehicle List</h1>
+
+{% if forsale == True %}
+<h2 class="subtitle is-5">These vehicles are available for sale</h2>
+{% else %}
+<h2 class="subtitle is-5">All vehicles in the database</h2>
+{% endif %}
+
+<div class="columns">
+    <div class="column is-full">
+        <table class="table is-striped is-bordered is-hoverable">
+            <thead>
+                <th>VIN</th>
+                <th>Vehicle Type</th>
+                <th>Model Year</th>
+                <th>Manufacturer</th>
+                <th>Model Name</th>
+                <th>Color</th>
+                <th>Sales Price</th>
+                <th>Actions</th>
+            </thead>
+            <tbody>
+                {% for vehicle in vehicles %}
+                <tr>
+                    <td>{{ vehicle['vin'] }}</td>
+                    <td>{{ vehicle['vehicle_type_name'] }}</td>
+                    <td>{{ vehicle['model_year'] }}</td>
+                    <td>{{ vehicle['manufacturer_name'] }}</td>
+                    <td>{{ vehicle['model_name'] }}</td>
+                    <td>{{ vehicle['color'] }}</td>
+                    <td>${{ vehicle['sales_price'] }}</td>
+                    <td>
+                        <form action="{{ url_for('details') }}" method="post" role="form">
+                            <input type="hidden" id="vehicleID" name="vehicleID" value="{{ vehicle['vehicleID'] }}">
+                            <input type="submit" class="button is-info" value="DETAILS" />
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

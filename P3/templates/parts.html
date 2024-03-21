@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}Geneva Auto{% endblock title}
+
+<header>
+    {% include 'navbar.html' %}
+</header>
+
+{% block body %}
+<body>
+    <h1>Part Orders</h1>
+    <form action="{{ url_for('parts') }}" method="post" class="search-form">
+        <table>
+            <tr>
+                <th>Part Order ID</th>
+                <th>Order Number</th>
+                <th>Vehicle ID</th>
+                <th>Vendor ID</th>
+            </tr>
+            <tr>
+                <td>769</td>
+                <td>5786</td>
+                <td>5432</td>
+                <td>325</td>
+            </tr>
+            <tr>
+                <td>98706</td>
+                <td>2354</td>
+                <td>6798</td>
+                <td>543</td>
+            </tr>
+        </table>
+    </form>
+</body>
+{% endblock %}
+
+{% include 'footer.html' %}
