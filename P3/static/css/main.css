@@ -8,8 +8,19 @@
     background: transparent;
 }
 
-.search-form {
-    padding: 40px;
+html, body {
+    margin: 0;
+    height: 100%;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+    padding: 20px 50px;
 }
 
 nav ul {
@@ -24,7 +35,7 @@ nav li a {
     float: left;
 }
 
-nav li a, button {
+nav li a, button, nav li .btn {
     display: block;
     color: white;
     text-align: center;
@@ -32,7 +43,7 @@ nav li a, button {
     text-decoration: none;
 }
 
-nav li a:hover {
+nav li a:hover, nav li .btn:hover {
   text-decoration: none;
   color: mediumturquoise !important;
 }
@@ -52,20 +63,14 @@ ul li ul.dropdown {
     display: none;
     position: absolute;
     z-index: 999;
-    left: 900px;
-    top: 45px;
+    left: 920px;
+    top: 40px;
 }
 ul li:hover ul.dropdown {
     display: block; /* Display the dropdown */
 }
 ul li ul.dropdown li {
     display: block;
-}
-
-body {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
 }
 
 h1 {
@@ -177,8 +182,7 @@ td {
 }
 
 footer {
-  position: absolute;
-  bottom: 0;
+  margin-top: auto;
   width: 100%;
   height: 5rem;
   text-align: center;

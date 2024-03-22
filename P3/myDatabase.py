@@ -7,7 +7,7 @@ def myConnect():
             user="root",
             password="Bi11s723!",
             host="localhost",
-            port=3307,
+            port=3306,
             database="csc206cars")
     except mariadb.Error as e:
         print(f"Error connecting to MariaDB Platform: {e}")

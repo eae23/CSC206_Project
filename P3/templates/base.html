@@ -15,11 +15,12 @@
 </header>
 
 <body>
-    {% block body %}
-        <h1>Welcome to Geneva Auto!</h1>
-    {% endblock %}
+    <main>
+        {% block body %}
+            <h1>Welcome to Geneva Auto!</h1>
+        {% endblock %}
+    </main>
+    {% include 'footer.html' %}
 </body>
-
-{% include 'footer.html' %}
 
 </html>

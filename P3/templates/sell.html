@@ -1,40 +1,32 @@
 {% extends "base.html" %}
 
-{% block title %}Geneva Auto{% endblock title}
-
-<header>
-    {% include 'navbar.html' %}
-</header>
+{% block title %}Sales Transactions{% endblock %}
 
 {% block body %}
 <body>
     <h1>Sales Transactions</h1>
-    <form action="{{ url_for('sell') }}" method="post" class="search-form">
-        <table>
-            <tr>
-                <th>Sales Transaction ID</th>
-                <th>Vehicle ID</th>
-                <th>User ID</th>
-                <th>Customer ID</th>
-                <th>Sales Date</th>
-            </tr>
-            <tr>
-                <td>2376</td>
-                <td>23987</td>
-                <td>34987</td>
-                <td>723</td>
-                <td>2/23/2024</td>
-            </tr>
-            <tr>
-                <td>2347</td>
-                <td>123487</td>
-                <td>2543</td>
-                <td>329</td>
-                <td>2/23/2024</td>
-            </tr>
-        </table>
-    </form>
+    <table>
+        <tr>
+            <th>Sales Transaction ID</th>
+            <th>Vehicle ID</th>
+            <th>User ID</th>
+            <th>Customer ID</th>
+            <th>Sales Date</th>
+        </tr>
+        <tr>
+            <td>2376</td>
+            <td>23987</td>
+            <td>34987</td>
+            <td>723</td>
+            <td>2/23/2024</td>
+        </tr>
+        <tr>
+            <td>2347</td>
+            <td>123487</td>
+            <td>2543</td>
+            <td>329</td>
+            <td>2/23/2024</td>
+        </tr>
+    </table>
 </body>
 {% endblock %}
-
-{% include 'footer.html' %}

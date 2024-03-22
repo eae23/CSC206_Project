@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}Part Statistics{% endblock %}
+
+{% block body %}
+<h1 class="title is-3">Part Statistics</h1>
+
+<div class="columns">
+    <div class="column is-full">
+        <table class="table is-striped is-bordered is-hoverable">
+            <thead>
+                <th>Vendor</th>
+                <th>Total Parts Purchased</th>
+                <th>Total Parts Cost</th>
+                <th>Avg Parts Cost</th>
+            </thead>
+            <tbody>
+                {% for stat in stats %}
+                <tr>
+                    <td>{{ stat['Vendor'] }}</td>
+                    <td>{{ stat['TotalPartsPurchased'] }}</td>
+                    <td>${{ stat['TotalPartsCost'] }}</td>
+                    <td>${{ stat['AvgPartsCost'] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

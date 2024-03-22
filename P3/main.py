@@ -7,30 +7,8 @@ import sys
 app = Flask(__name__, static_url_path='/assets')
 
 @app.route('/')
-def available():
-     # Connect to MariaDB Platform
-     #try:
-     #    conn=db.myConnect()
-     #except mariadb.Error as e:
-     #   print(f"Error connecting to MariaDB Platform: {e}")
-     #   sys.exit(1)
+def base():
 
-    # Get Cursor
-    #cur = conn.cursor(dictionary=True)
-
-    # Execute Query
-    #cur.execute( ''' SELECT * FROM vehicles v
-     #            WHERE
-     #               v.vehicleID NOT IN (SELECT vehicleID FROM salestransactions)
-     #               and v.vehicleID NOT IN (
-     #                   SELECT DISTINCT vehicleID
-     #                   FROM partorders po
-     #                   INNER JOIN parts p on po.part_orderID = p.part_orderID
-     #                   WHERE p.`status` != 'Installed')''')
-    #output = cur.fetchall()
-
-    # Return to the browser - View template = listing.html with in-template variable = vehicles
-    #return render_template('vehicles/listing.html', vehicles=output, forsale=True)
     return render_template('base.html')
 
 @app.route('/vehicles')
@@ -151,6 +129,7 @@ FROM vehicletypes vt, manufacturers m, vehiclecolors vc, colors c, purchasetrans
 @app.route('/details', methods=['GET', 'POST'])
 def details():
     vehicle_id = int(request.form['vehicleID'])
+    print(f"VehicleID: {vehicle_id}")
 
     # Connect to MariaDB Platform
     try:
@@ -183,50 +162,168 @@ def details():
 
     return render_template('vehicles/details.html', vehicles=output)
 
-@app.route('/reports')
-def reports():
-
-    return render_template('reports.html')
-
-@app.route('/customers')
-def customers():
-
-    return render_template('customers.html')
-
-@app.route('/buy')
-def buy():
-
-    return render_template('buy.html')
-
-@app.route('/parts')
-def parts():
-
-    return render_template('parts.html')
-
-@app.route('/sell')
-def sell():
-
-    return render_template('sell.html')
-
-@app.route('/suppliers')
-def suppliers():
-
-    return render_template('suppliers.html')
-
 @app.route('/sales_productivity')
 def sales_productivity():
 
-    return render_template('sales_productivity.html')
+    # Connect to MariaDB Platform
+    try:
+        conn=db.myConnect()
+    except mariadb.Error as e:
+        print(f"Error connecting to MariaDB Platform: {e}")
+        sys.exit(1)
+
+    # Get Cursor
+    cur = conn.cursor(dictionary=True)
+
+    # Execute Query
+    cur.execute( '''SELECT
+                      a.SalesPerson,
+                      SUM(a.VehiclesSold) VehiclesSold,
+                      FORMAT(SUM(a.SalesPrice), 2) TotalSales,
+                      FORMAT(SUM(a.SalesPrice) / SUM(a.VehiclesSold), 2) AvgSale
+                    FROM
+                      (
+                        SELECT
+                          CONCAT(u.first_name, ' ', u.last_name) SalesPerson,
+                          1 VehiclesSold,
+                          ROUND((pt.purchase_price * 1.4), 2) SalesPrice
+                        FROM
+                          users u,
+                          salestransactions st,
+                          purchasetransactions pt,
+                          vehicles v
+                        WHERE
+                          u.userID = st.userID
+                          AND st.vehicleID = v.vehicleID
+                          AND pt.vehicleID = v.vehicleID
+                          AND u.role = 'Sales'
+                        UNION
+                        SELECT
+                          CONCAT(u.first_name, ' ', u.last_name) SalesPerson,
+                          0 VehiclesSold,
+                          ROUND((p.cost * 1.2), 2) SalesPrice
+                        FROM
+                          users u,
+                          salestransactions st,
+                          purchasetransactions pt,
+                          vehicles v,
+                          partorders po,
+                          parts p
+                        WHERE
+                          u.userID = st.userID
+                          AND st.vehicleID = v.vehicleID
+                          AND pt.vehicleID = v.vehicleID
+                          AND v.vehicleID = po.vehicleID
+                          AND po.part_orderID = p.part_orderID
+                          AND u.role = 'Sales'
+                      ) a
+                    GROUP BY
+                      SalesPerson
+                    ORDER BY
+                      VehiclesSold DESC,
+                      TotalSales DESC''')
+    output = cur.fetchall()
+
+    # Return to the browser - View template = listing.html with in-template variable = vehicles
+    return render_template('reports/sales_productivity.html', sales=output)
+
 
 @app.route('/seller_history')
 def seller_history():
 
-    return render_template('seller_history.html')
+    # Connect to MariaDB Platform
+    try:
+        conn=db.myConnect()
+    except mariadb.Error as e:
+        print(f"Error connecting to MariaDB Platform: {e}")
+        sys.exit(1)
+
+    # Get Cursor
+    cur = conn.cursor(dictionary=True)
+
+    # Execute Query
+    cur.execute( '''SELECT
+                      CONCAT(c.first_name, ' ', c.last_name) Seller,
+                      COUNT(v.vehicleID) VehiclesSold,
+                      FORMAT(SUM(pt.purchase_price), 2) TotalSales
+                    FROM
+                      customers c,
+                      purchasetransactions pt,
+                      vehicles v
+                    WHERE
+                      c.customerID = pt.customerID
+                      AND pt.vehicleID = v.vehicleID
+                    GROUP BY
+                      Seller
+                    ORDER BY
+                      VehiclesSold DESC,
+                      TotalSales ASC''')
+    output = cur.fetchall()
+
+    # Return to the browser - View template = listing.html with in-template variable = vehicles
+    return render_template('reports/seller_history.html', sales=output)
+
 
 @app.route('/part_statistics')
 def part_statistics():
 
-    return render_template('part_statistics.html')
+    # Connect to MariaDB Platform
+    try:
+        conn=db.myConnect()
+    except mariadb.Error as e:
+        print(f"Error connecting to MariaDB Platform: {e}")
+        sys.exit(1)
+
+    # Get Cursor
+    cur = conn.cursor(dictionary=True)
+
+    # Execute Query
+    cur.execute( '''SELECT
+                      v.vendor_name Vendor,
+                      SUM(p.quantity) TotalPartsPurchased,
+                      FORMAT(SUM(p.cost * p.quantity), 2) TotalPartsCost,
+                      FORMAT(AVG(p.cost * p.quantity), 2) AvgPartsCost
+                    FROM
+                      vendors v,
+                      partorders po,
+                      parts p
+                    WHERE
+                      v.vendorID = po.vendorID
+                      AND p.part_orderID = po.part_orderID
+                    GROUP BY
+                      Vendor
+                    ORDER BY
+                      TotalPartsPurchased DESC,
+                      TotalPartsCost DESC''')
+    output = cur.fetchall()
+
+    # Return to the browser - View template = listing.html with in-template variable = vehicles
+    return render_template('reports/part_statistics.html', sales=output)
+
+
+@app.route('/buy')
+def buy():
+    return render_template('buy.html')
+
+
+@app.route('/customers')
+def customers():
+    return render_template('customers.html')
+
+
+@app.route('/parts')
+def parts():
+    return render_template('parts.html')
+
+
+@app.route('/sell')
+def sell():
+    return render_template('sell.html')
+
+
+@app.route('/suppliers')
+def suppliers():
+    return render_template('suppliers.html')
 
 
 '''

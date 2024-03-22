@@ -1,54 +1,50 @@
 {% extends "base.html" %}
 
-{% block title %}Geneva Auto{% endblock title}
+{% block title %}Customers{% endblock %}
 
 {% block body %}
 <body>
     <h1>Customers</h1>
-    <form action="{{ url_for('customers') }}" method="post" class="search-form">
-        <table>
-            <tr>
-                <th>Customer ID</th>
-                <th>Phone Number</th>
-                <th>Email Address</th>
-                <th>Street Address</th>
-                <th>City</th>
-                <th>State</th>
-                <th>Postal Code</th>
-                <th>Id Number</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Business Name</th>
-            </tr>
-            <tr>
-                <td>723</td>
-                <td>(585) 364-4623</td>
-                <td>eaengert23@gmail.com</td>
-                <td>6901 Proximity lane</td>
-                <td>Victor</td>
-                <td>New York</td>
-                <td>14564</td>
-                <td>101633</td>
-                <td>Ethan</td>
-                <td>Engert</td>
-                <td>Geneva College</td>
-            </tr>
-            <tr>
-                <td>329</td>
-                <td>(585) 315-3163</td>
-                <td>mads.merrill@gmail.com</td>
-                <td>2156 County Road 28</td>
-                <td>Canandaigua</td>
-                <td>New York</td>
-                <td>14424</td>
-                <td>101634</td>
-                <td>Madison</td>
-                <td>Merrill</td>
-                <td>Crosswinds Wesleyan Church</td>
-            </tr>
-        </table>
-    </form>
+    <table>
+        <tr>
+            <th>Customer ID</th>
+            <th>Phone Number</th>
+            <th>Email Address</th>
+            <th>Street Address</th>
+            <th>City</th>
+            <th>State</th>
+            <th>Postal Code</th>
+            <th>Id Number</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Business Name</th>
+        </tr>
+        <tr>
+            <td>723</td>
+            <td>(585) 364-4623</td>
+            <td>eaengert23@gmail.com</td>
+            <td>6901 Proximity lane</td>
+            <td>Victor</td>
+            <td>New York</td>
+            <td>14564</td>
+            <td>101633</td>
+            <td>Ethan</td>
+            <td>Engert</td>
+            <td>Geneva College</td>
+        </tr>
+        <tr>
+            <td>329</td>
+            <td>(585) 315-3163</td>
+            <td>mads.merrill@gmail.com</td>
+            <td>2156 County Road 28</td>
+            <td>Canandaigua</td>
+            <td>New York</td>
+            <td>14424</td>
+            <td>101634</td>
+            <td>Madison</td>
+            <td>Merrill</td>
+            <td>Crosswinds Wesleyan Church</td>
+        </tr>
+    </table>
 </body>
 {% endblock %}
-
-{% include 'footer.html' %}
