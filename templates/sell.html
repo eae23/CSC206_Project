@@ -1,0 +1,170 @@
+{% extends "base.html" %}
+
+{% block title %}Sell Vehicle{% endblock %}
+
+{% block body %}
+<h1 class="title is-3">Sell Vehicle</h1>
+
+<div class="details-display">
+    <div class="detail-info"><strong>VIN:</strong>  {{ vehicle['vin'] }}</div>
+    <div class="detail-info"><strong>Vehicle Type:</strong>  {{ vehicle['vehicle_type_name'] }}</div>
+    <div class="detail-info"><strong>Model Year:</strong>  {{ vehicle['model_year'] }}</div>
+    <div class="detail-info"><strong>Manufacturer:</strong>  {{ vehicle['manufacturer_name'] }}</div>
+    <div class="detail-info"><strong>Model Name:</strong>  {{ vehicle['model_name'] }}</div>
+    <div class="detail-info"><strong>Color:</strong>  {{ vehicle['color'] }}</div>
+    <div class="detail-info"><strong>Description:</strong>  {{ vehicle['description'] }}</div>
+    <div class="detail-info"><strong>Sales Price:</strong>$ {{ vehicle['sales_price'] }}</div>
+    <br />
+</div>
+
+<form action="{{ url_for('process_sale') }}" method="post">
+    <label for="customer" class="field-required"><b>Customer</b></label>
+    <select name="customer" id="customer" required>
+      <option value="" {% if customer_id is none %} SELECTED {% endif %}></option>
+      {% for customer in customers %}
+        <option value="{{ customer['customerID'] }}"
+        {% if customer.customerID == customer_id %} SELECTED {% endif %}>
+        {{ customer['last_name'] }}, {{ customer['first_name'] }}</option>
+      {% endfor %}
+    </select>
+    <div class="invalid-feedback">
+      Customer is required
+    </div>
+    <a data-target="addCustomerModal" role="button" class="js-modal-trigger button is-primary is-outlined add_customer_button">
+        Add Customer
+    </a>
+    <br />
+    <label for="sale_date" class="field-required"><b>Sale Date</b></label>
+    <input type="date" id="sale_date" name="sale_date" required />
+    <div class="invalid-feedback">
+      Sale Date is required
+    </div>
+    <br />
+    <button type="submit" name="sell_vehicle_button" id="sell_vehicle_button" class="button is-primary has-text-primary-light">Complete Sale</button>
+</form>
+
+<!-- BEGIN Modal Add Customer form  -->
+<div id="addCustomerModal" class="modal fade">
+    <div class="modal-background"></div>
+    <!-- Modal content-->
+    <div class="modal-content">
+        <div class="modal-header">
+             <h4 class="title is-4 is-spaced">Enter Customer Information</h4>
+        </div>
+        <div class="modal-body">
+            <form action="{{ url_for('save_customer') }}" name="add_customer" method="post" id="add_customer">
+                <div class="field is-grouped">
+                    <label for="first_name" class="label field-required">First Name</label>
+                    <input type="text" name="first_name" id="first_name" class="input" required />
+                </div>
+                <br />
+                <div class="field is-grouped">
+                    <label for="last_name" class="label field-required">Last Name</label>
+                    <input type="text" name="last_name" id="last_name" class="input" required />
+                </div>
+                <br />
+                <div class="field is-grouped">
+                    <label for="business_name" class="label">Business Name</label>
+                    <input type="text" name="business_name" id="business_name" class="input" />
+                </div>
+                <br />
+                <div class="field is-grouped">
+                    <label for="email" class="label">Email</label>
+                    <input type="email" name="email" id="email" class="input" />
+                </div>
+                <br />
+                <div class="field is-grouped">
+                    <label for="phone" class="label field-required">Phone</label>
+                    <input type="tel" name="phone" id="phone" class="input" required />
+                </div>
+                <br />
+                <div class="field is-grouped">
+                    <label for="street" class="label field-required">Street Address</label>
+                    <input type="text" name="street" id="street" class="input" required />
+                </div>
+                <br />
+                <div class="field is-grouped">
+                    <label for="city" class="label field-required">City</label>
+                    <input type="text" name="city" id="city" class="input" required />
+                </div>
+                <br />
+                <div class="field is-grouped">
+                    <label for="state" class="label field-required">State</label>
+                        <select class="select" id="state" name="state" required>
+                        <option value=""></option>
+                        <option value="AK">Alaska</option>
+                        <option value="AL">Alabama</option>
+                        <option value="AR">Arkansas</option>
+                        <option value="AZ">Arizona</option>
+                        <option value="CA">California</option>
+                        <option value="CO">Colorado</option>
+                        <option value="CT">Connecticut</option>
+                        <option value="DC">District of Columbia</option>
+                        <option value="DE">Delaware</option>
+                        <option value="FL">Florida</option>
+                        <option value="GA">Georgia</option>
+                        <option value="HI">Hawaii</option>
+                        <option value="IA">Iowa</option>
+                        <option value="ID">Idaho</option>
+                        <option value="IL">Illinois</option>
+                        <option value="IN">Indiana</option>
+                        <option value="KS">Kansas</option>
+                        <option value="KY">Kentucky</option>
+                        <option value="LA">Louisiana</option>
+                        <option value="MA">Massachusetts</option>
+                        <option value="MD">Maryland</option>
+                        <option value="ME">Maine</option>
+                        <option value="MI">Michigan</option>
+                        <option value="MN">Minnesota</option>
+                        <option value="MO">Missouri</option>
+                        <option value="MS">Mississippi</option>
+                        <option value="MT">Montana</option>
+                        <option value="NC">North Carolina</option>
+                        <option value="ND">North Dakota</option>
+                        <option value="NE">Nebraska</option>
+                        <option value="NH">New Hampshire</option>
+                        <option value="NJ">New Jersey</option>
+                        <option value="NM">New Mexico</option>
+                        <option value="NV">Nevada</option>
+                        <option value="NY">New York</option>
+                        <option value="OH">Ohio</option>
+                        <option value="OK">Oklahoma</option>
+                        <option value="OR">Oregon</option>
+                        <option value="PA">Pennsylvania</option>
+                        <option value="PR">Puerto Rico</option>
+                        <option value="RI">Rhode Island</option>
+                        <option value="SC">South Carolina</option>
+                        <option value="SD">South Dakota</option>
+                        <option value="TN">Tennessee</option>
+                        <option value="TX">Texas</option>
+                        <option value="UT">Utah</option>
+                        <option value="VA">Virginia</option>
+                        <option value="VT">Vermont</option>
+                        <option value="WA">Washington</option>
+                        <option value="WI">Wisconsin</option>
+                        <option value="WV">West Virginia</option>
+                        <option value="WY">Wyoming</option>
+                    </select>
+                </div>
+                <br />
+                <div class="field is-grouped">
+                    <label for="postal_code" class="label field-required">Zip Code</label>
+                    <input type="text" name="postal_code" id="postal_code" class="input" required />
+                </div>
+                <br />
+                <div class="field is-grouped">
+                    <label for="id_number" class="label field-required">ID Number</label>
+                    <input type="text" name="id_number" id="id_number" class="input" required />
+                </div>
+                <br />
+                <input type="hidden" id="buyVehicleID" name="buyVehicleID" value="{{ vehicle['vehicleID'] }}">
+                <input type="hidden" id="transaction_type" name="transaction_type" value="Sell">
+                <div class="buttons is-right">
+                    <button type="submit" name="save_customer_button" id="save_customer_button" class="button is-primary has-text-primary-light">SAVE</button>
+                </div>
+            </form>
+        </div>
+        <button class="modal-close is-large" aria-label="close"></button>
+    </div>
+</div>
+{% endblock %}

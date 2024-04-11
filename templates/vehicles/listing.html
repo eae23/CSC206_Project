@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+
+{% block title %}Vehicle Listing{% endblock %}
+
+{% block body %}
+<h1 class="title is-3 is-spaced">Vehicle List</h1>
+
+{% if forsale == True %}
+<h2 class="subtitle is-5 is-spaced">These vehicles are available for sale</h2>
+{% else %}
+<h2 class="subtitle is-5 is-spaced">All vehicles in the database</h2>
+{% endif %}
+
+<div class="columns">
+    <div class="column is-full">
+        <div class="field has-addons is-fullwidth vehicle-list-search-block">
+            <div class="control is-expanded">
+                <input type="text" id="vehicle-list-search" class="input is-fullwidth" placeholder="Filter list by entering search terms">
+                <div class="help is-light">Vehicle list will be filtered using ANY of the search terms entered</div>
+            </div>
+            <div class="control has-icons">
+                <button id="vehicle-list-search-button" class="button" value="Search" onclick="vehicleListSearch()" />
+                    <span class="icon">
+                        <i class="fas fa-search"></i>
+                    </span>
+                </button>
+            </div>
+        </div>
+
+        <table id="vehicle-listing-table" class="table is-striped is-bordered is-hoverable is-fullwidth vehicle-listing">
+            <thead>
+                <th>VIN</th>
+                <th>Vehicle Type</th>
+                <th>Model Year</th>
+                <th>Manufacturer</th>
+                <th>Model Name</th>
+                <th>Color</th>
+                <th>Sales Price</th>
+                <th>Actions</th>
+            </thead>
+            <tbody>
+                {% for vehicle in vehicles %}
+                <tr>
+                    <td>{{ vehicle['vin'] }}</td>
+                    <td>{{ vehicle['vehicle_type_name'] }}</td>
+                    <td>{{ vehicle['model_year'] }}</td>
+                    <td>{{ vehicle['manufacturer_name'] }}</td>
+                    <td>{{ vehicle['model_name'] }}</td>
+                    <td>{{ vehicle['color'] }}</td>
+                    <td>{% if vehicle['sales_price'] != '' %}${% endif %}{{ vehicle['sales_price'] }}</td>
+                    <td class="actions" nowrap>
+                        <div class="buttons are-small">
+                            <form action="{{ url_for('details') }}" method="post" role="form" class="action-button">
+                                <input type="hidden" id="vehicleID" name="vehicleID" value="{{ vehicle['vehicleID'] }}">
+                                <input type="submit" class="button is-primary has-text-primary-light" value="DETAILS" />
+                            </form>
+                            {% if session.role in ('Owner','Buyer') %}
+                                {% if vehicle['available_to_buy'] == 'Y' %}
+                                <form action="{{ url_for('buy') }}" method="post" role="form" class="action-button">
+                                    <input type="hidden" id="buyVehicleID" name="buyVehicleID" value="{{ vehicle['vehicleID'] }}">
+                                    <input type="submit" class="button is-warning" value="BUY" />
+                                </form>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    // Get the input field
+    var input = document.getElementById("vehicle-list-search");
+
+    // Execute a function when the user presses a key on the keyboard
+    input.addEventListener("keypress", function(event) {
+      // If the user presses the "Enter" key on the keyboard
+      if (event.key === "Enter") {
+        // Cancel the default action, if needed
+        event.preventDefault();
+        // Trigger the button element with a click
+        document.getElementById("vehicle-list-search-button").click();
+      }
+    });
+
+    function vehicleListSearch() {
+        var input, filter, table, tr, td, i;
+        input = document.getElementById("vehicle-list-search");
+        var filterParams = input.value.toUpperCase().split( " " ); //split by space to get array of search parameters
+        //filter = input.value.toUpperCase();
+        table = document.getElementById("vehicle-listing-table");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+            let rowTds = tr[i].getElementsByTagName("td")
+            for (j = 0; j < rowTds.length; j++){
+                td = tr[i].getElementsByTagName("td")[j];
+                if (td) {
+                    var tdValue = td.innerHTML.toUpperCase();
+                    var isMatched = filterParams.filter( function( val ){ return tdValue.indexOf( val ) > -1 }); //check if any val in filterParam array is matching the tdValue
+                    if ( isMatched.length ) { //check length of filtered resultset
+                    //if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                      tr[i].style.display = "";
+                      break;
+                    } else {
+                      tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    }
+</script>
+
+{% endblock %}

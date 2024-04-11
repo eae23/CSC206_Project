@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {% if transaction_type == 'buy' %}Purchase Complete{% endif %}
+    {% if transaction_type == 'sell' %}Sale Complete{% endif %}
+{% endblock %}
+
+{% block body %}
+<h1 class="title is-3">
+    {% if transaction_type == 'buy' %}Purchase Complete{% endif %}
+    {% if transaction_type == 'sell' %}Sale Complete{% endif %}
+</h1>
+
+<h5>
+    {% if transaction_type == 'buy' %}Purchase of the vehicle below has been completed successfully.{% endif %}
+    {% if transaction_type == 'sell' %}Sale of the vehicle below has been completed successfully.{% endif %}
+</h5>
+
+<div class="details-display">
+    <div class="detail-info"><strong>VIN:</strong>  {{ vehicle['vin'] }}</div>
+    <div class="detail-info"><strong>Vehicle Type:</strong>  {{ vehicle['vehicle_type_name'] }}</div>
+    <div class="detail-info"><strong>Model Year:</strong>  {{ vehicle['model_year'] }}</div>
+    <div class="detail-info"><strong>Manufacturer:</strong>  {{ vehicle['manufacturer_name'] }}</div>
+    <div class="detail-info"><strong>Model Name:</strong>  {{ vehicle['model_name'] }}</div>
+    <div class="detail-info"><strong>Color:</strong>  {{ vehicle['color'] }}</div>
+    <div class="detail-info"><strong>Description:</strong>  {{ vehicle['description'] }}</div>
+    <div class="detail-info"><strong>
+        {% if transaction_type == 'buy' %}Purchase Price:{% endif %}
+        {% if transaction_type == 'sell' %}Sale Price:{% endif %}
+        </strong>  ${{ vehicle['price'] }}
+    </div>
+    <br />
+</div>
+
+{% endblock %}

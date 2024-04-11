@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block title %}Vehicle Details{% endblock %}
+
+{% block body %}
+<h1 class="title is-3">Vehicle Details</h1>
+
+<div class="details-display">
+    <div class="detail-info"><strong>VIN:</strong>  {{ vehicle['vin'] }}</div>
+    <div class="detail-info"><strong>Vehicle Type:</strong>  {{ vehicle['vehicle_type_name'] }}</div>
+    <div class="detail-info"><strong>Model Year:</strong>  {{ vehicle['model_year'] }}</div>
+    <div class="detail-info"><strong>Manufacturer:</strong>  {{ vehicle['manufacturer_name'] }}</div>
+    <div class="detail-info"><strong>Model Name:</strong>  {{ vehicle['model_name'] }}</div>
+    <div class="detail-info"><strong>Color:</strong>  {{ vehicle['color'] }}</div>
+    <div class="detail-info"><strong>Description:</strong>  {{ vehicle['description'] }}</div>
+    {% if vehicle['sales_price'] != '' %}
+        <div class="detail-info"><strong>Sales Price:</strong>  ${{ vehicle['sales_price'] }}</div>
+    {% endif %}
+    <br />
+    {% if session.role in ('Owner','Buyer') %}
+        {% if parts %}
+        <h4>Parts for this vehicle</h4>
+        <div>
+            <table class="table is-striped is-bordered is-hoverable parts-listing">
+                <thead>
+                    <th>Part Number</th>
+                    <th>Description</th>
+                    <th>Qty</th>
+                    <th>Cost</th>
+                    <th>Status</th>
+                </thead>
+                <tbody>
+                    {% for part in parts %}
+                    <tr>
+                        <td>{{ part['part_number'] }}</td>
+                        <td>{{ part['description'] }}</td>
+                        <td>{{ part['quantity'] }}</td>
+                        <td>{{ part['cost'] }}</td>
+                        <td>{{ part['status'] }}
+                            {% if part['status'] in ('Ordered','Received') %}
+                            <form action="{{ url_for('details') }}" method="post" role="form" class="install-button">
+                                <input type="hidden" id="partVehicleID" name="partVehicleID" value="{{ vehicle['vehicleID'] }}">
+                                <input type="hidden" id="installPartID" name="installPartID" value="{{ part['partID'] }}">
+                                <input type="submit" class="button is-warning is-small" value="INSTALL" />
+                            </form>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <br />
+        {% endif %}
+    {% endif %}
+
+    {% if session.role in ('Owner') %}
+        {% if seller %}
+        <br />
+        <h5>Seller Information</h5>
+        <hr>
+        <div class="detail-info"><strong>Seller:</strong>  {{ seller['Name'] }}</div>
+        <div class="detail-info"><strong>Address:</strong>  {{ seller['Address'] }}</div>
+        <div class="detail-info"><strong>Phone:</strong>  {{ seller['Phone'] }}</div>
+        <div class="detail-info"><strong>Email:</strong>  {{ seller['Email'] }}</div>
+        {% endif %}
+    {% endif %}
+    {% if session.role in ('Owner') %}
+        {% if buyer %}
+        <br /><br />
+        <h5>Buyer Information</h5>
+        <hr>
+        <div class="detail-info"><strong>Buyer:</strong>  {{ buyer['Name'] }}</div>
+        <div class="detail-info"><strong>Address:</strong>  {{ buyer['Address'] }}</div>
+        <div class="detail-info"><strong>Phone:</strong>  {{ buyer['Phone'] }}</div>
+        <div class="detail-info"><strong>Email:</strong>  {{ buyer['Email'] }}</div>
+        {% endif %}
+    {% endif %}
+
+    {% if session.role in ('Owner','Sales') %}
+        {% if buyer %}
+        {% else %}
+            {% if seller %}
+                {% if vehicle['ready_to_sell'] == 'Y' %}
+                <br /><br /><br />
+                <form action="{{ url_for('sell') }}" method="post" role="form">
+                    <input type="hidden" id="sellVehicleID" name="sellVehicleID" value="{{ vehicle['vehicleID'] }}">
+                    <input type="submit" class="button is-primary has-text-primary-light" value="Sell Vehicle" />
+                </form>
+                {% endif %}
+            {% endif %}
+        {% endif %}
+    {% endif %}
+</div>
+
+{% endblock %}
