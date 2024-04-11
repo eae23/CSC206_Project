@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}Geneva Auto{% endblock %}
+
+{% block body %}
+<body>
+    <h1 class="title">Search for Vehicles</h1>
+    <h5>Select search criteria below or leave all fields blank to view all vehicles</h5>
+    <br />
+    <form action="{{ url_for('vehicles_search_results') }}" method="post" class="search-form">
+        <label for="vehicle_type"><b>Vehicle Type</b></label>
+        <select name="vehicle_type" id="vehicle_type">
+          <option value="" SELECTED></option>
+          {% for vehicle_type in vehicle_types %}
+            <option value="{{ vehicle_type['vehicle_type_name'] }}" >{{ vehicle_type['vehicle_type_name'] }}</option>
+          {% endfor %}
+        </select>
+        <br>
+        <label for="manufacturer"><b>Manufacturer</b></label>
+        <select name="manufacturer" id="manufacturer">
+          <option value="" SELECTED></option>
+          {% for manufacturer in manufacturers %}
+            <option value="{{ manufacturer['manufacturer_name'] }}" >{{ manufacturer['manufacturer_name'] }}</option>
+          {% endfor %}
+        </select>
+        <br>
+        <label for="model_year"><b>Model Year</b></label>
+        <select name="model_year" id="model_year">
+          <option value="" SELECTED></option>
+          {% for model_year in model_years %}
+            <option value="{{ model_year['model_year'] }}" >{{ model_year['model_year'] }}</option>
+          {% endfor %}
+        </select>
+        <br>
+        <label for="fuel_type"><b>Fuel Type</b></label>
+        <select name="fuel_type" id="fuel_type">
+          <option value="" SELECTED></option>
+          {% for fuel_type in fuel_types %}
+            <option value="{{ fuel_type['fuel_type'] }}" >{{ fuel_type['fuel_type'] }}</option>
+          {% endfor %}
+        </select>
+        <br>
+        <label for="color_name"><b>Color</b></label>
+        <select name="color_name" id="color_name">
+          <option value="" SELECTED></option>
+          {% for color_name in color_names %}
+            <option value="{{ color_name['color_name'] }}" >{{ color_name['color_name'] }}</option>
+          {% endfor %}
+        </select>
+        <br>
+        <input type="submit" value="Search Vehicles" class="button is-primary has-text-primary-light" id="search_button" />
+    </form >
+</body>
+{% endblock %}

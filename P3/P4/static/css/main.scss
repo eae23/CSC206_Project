@@ -1,0 +1,270 @@
+@charset "utf-8";
+
+// Set your own initial variables
+$blue: #1297b6;
+$blue-invert: #bfeffa;
+
+
+// Set the derived variables
+$primary: $blue;
+$primary-invert: $blue-invert;
+
+$button-text-color: $primary-invert;
+
+$navbar-burger-color: $primary-invert;
+$navbar-background-color: $primary;
+$navbar-item-hover-background-color: $primary-invert;
+$navbar-item-hover-color: $primary;
+$navbar-item-color: $primary-invert;
+$navbar-dropdown-arrow: $primary;
+$navbar-tab-active-color: $primary;
+$navbar-tab-active-background-color: $primary-invert;
+$navbar-dropdown-background-color: $primary-invert;
+$navbar-padding-horizontal: 3rem;
+$navbar-tab-hover-background-color: $primary-invert;
+$navbar-dropdown-radius: 0rem;
+$navbar-dropdown-boxed-radius: 0rem;
+
+$modal-background-background-color: rgba(0,0,0,0.5);
+$modal-close-right: 1rem;
+$modal-close-top: 1rem;
+
+$table-head-background-color: $primary-invert;
+$table-head-cell-color: $primary;
+
+
+//Import the rest of Bulma and Sass
+@import "bulma/sass";
+@import "bulma/versions/bulma-no-dark-mode";
+
+// My styles
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-size: 100%;
+    vertical-align: baseline;
+    background: transparent;
+}
+
+html, body {
+    margin: 0;
+    height: 100%;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+nav.navbar {
+  padding: 0 2rem;
+}
+
+nav a.navbar-item, nav .navbar-item a, .user-actions button, .user-name {
+    color: $primary-invert;
+    text-align: center;
+    padding-left: 1.3rem;
+    padding-right: 1.3rem;
+}
+
+nav .navbar-dropdown {
+  background-color: $primary-invert;
+}
+
+.navbar-dropdown a.navbar-item:not(.is-active, .is-selected) {
+  background-color: $primary-invert;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.navbar-dropdown a.navbar-item:hover {
+  background-color: rgba(0,0,0,0.1);
+}
+
+.nav-separator {
+  font-size: 24px;
+  color: $primary-invert;
+  float: left;
+}
+
+.title {
+  margin-bottom: 1.5rem;
+}
+
+#addCustomerModal.modal {
+  padding-top: 0;
+}
+
+.modal-content {
+  background-color: white;
+  width: auto;
+  padding: 2rem 2rem 3rem;
+  min-width: 30%;
+  border-radius: 1rem;
+}
+
+.modal-close {
+  position: absolute;
+}
+
+.modal-close::after {
+  content: "x";
+  font-size: 1.5rem;
+  font-family: Arial Rounded MT Bold;
+  color: #ccc;
+}
+
+#addCustomerModal .modal-content {
+   width: auto;
+  min-width:  40%;
+}
+
+label {
+  display: block;
+    margin-left: 2px;
+}
+
+.title.is-4.is-spaced {
+  margin-bottom: 2rem;
+}
+
+input, select {
+  padding: 10px 12px !important;
+  margin: 0 0 20px 0;
+  display: inline-block !important;
+  border-radius: var(--bulma-control-radius);
+  box-sizing: border-box;
+  width: 20rem;
+  border: 1px solid #ccc;
+}
+
+.search-form select {
+  width: 20rem;
+}
+
+input[type="submit"] {
+    width: auto;
+}
+
+#addCustomerModal label {
+  min-width: 25%;
+}
+
+#addCustomerModal input, #addCustomerModal select {
+  width: 65%;
+  margin-bottom: 0;
+}
+
+#addCustomerModal .invalid-feedback, .invalid-feedback {
+  margin-top: -20px;
+  text-align: right;
+  padding-right: 50px;
+  display: none;
+}
+
+label.field-required::after {
+  content:" *";
+  color: red;
+}
+
+span.password {
+float: right;
+padding-top: 16px;
+}
+
+.currency {
+  padding-left: 36px !important;
+}
+
+.currency-symbol {
+  position:absolute;
+  padding: 5px 8px 6px;
+  font-size: 20px;
+  background: #ccc;
+  border-radius: 4px 0 0 4px;
+}
+
+#search_button, #purchase_vehicle_button, #sell_vehicle_button {
+  margin: 30px 0 60px;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+tr:nth-child(even){
+  background-color: #dfdfdf;
+}
+
+.vehicle-list-search-block {
+  margin: 60px 0 40px;
+}
+
+.vehicle-list-search-block input {
+  margin-bottom: 0;
+}
+
+.vehicle-list-search-block button {
+  //padding-top: 10px;
+  //padding-bottom: 10px;
+  box-shadow: none;
+}
+
+#vehicle-listing-table {
+  border-collapse: collapse;
+}
+
+th {
+  text-align: center !important;
+}
+
+.action-button {
+  float: left;
+  margin-right: 10px;
+  max-width: 40%;
+}
+
+.install-button {
+  float: right;
+  margin-right: 10px;
+  max-width: 40%;
+}
+
+.action-button .button, .install-button .button {
+  margin: 0;
+  padding: 0.1rem 0.3rem !important;
+}
+
+.details-display, .customer-form {
+  padding: 40px;
+}
+
+.detail-info {
+  padding: 5px;
+  font-size: 18px;
+}
+
+.install-button {
+  float: right;
+}
+
+footer {
+  margin-top: auto;
+  width: 100%;
+  height: 4rem;
+  text-align: center;
+  padding-top: 15px;
+  background-color: #333;
+  color: white;
+}
