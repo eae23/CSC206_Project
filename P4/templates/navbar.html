@@ -1,0 +1,43 @@
+<nav class="navbar is-primary" role="navigation" aria-label="main navigation">
+  <div class="navbar-menu">
+    <div class="navbar-start">
+      <a href="/" class="navbar-item">Home</a>
+      <a href="{{ url_for('vehicles_search') }}" class="navbar-item">Vehicles Search</a>
+
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a href="#" class="navbar-link">Reports</a>
+            <div class="navbar-dropdown">
+                <a href="{{ url_for('sales_productivity') }}" class="navbar-item">Sales Productivity</a>
+                <a href="{{ url_for('seller_history') }}" class="navbar-item">Seller History</a>
+                <a href="{{ url_for('part_statistics') }}" class="navbar-item">Part Statistics</a>
+            </div>
+      </div>
+    </div>
+
+    <div class="navbar-end">
+      <div class="navbar-item">
+        <div class="buttons">
+          <div class="user-name">
+                {% if session.logged_in %}
+                    Welcome, {{ session.first_name }} ({{ session.role }})
+                {% endif %}
+            </div>
+            {% if session.logged_in %}
+                <span class="nav-separator">|</span>
+            {% endif %}
+            <div class="user-actions">
+            {% if session.logged_in %}
+                <a class="logout" href="{{ url_for('logout') }}">
+                    Logout
+                </a>
+            {% else %}
+                <button data-target="loginModal" class="js-modal-trigger login" >
+                    Login
+                </button>
+            {% endif %}
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>

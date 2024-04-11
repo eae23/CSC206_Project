@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>{% block title %}Geneva Auto{% endblock %}</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+<header>
+    {% include 'navbar.html' %}
+</header>
+
+<body>
+    <section class="section">
+        <div class="container">
+            <main>
+            {% block body %}
+                <h1 class="title">Welcome to Geneva Auto!</h1>
+            {% endblock %}
+            </main>
+
+        </div>
+    </section>
+    {% include 'footer.html' %}
+    <!-- BEGIN Modal login form  -->
+    <div id="loginModal" class="modal
+        <!-- If there is an error message to display, make login modal visible -->
+        {% if login_error %}
+            is-active
+        {% endif %}
+    ">
+        <div class="modal-background"></div>
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                 <h4 class="title is-4 is-spaced">Please Login</h4>
+            </div>
+            <div class="modal-body">
+                <form action="{{ url_for('login') }}" method="post" role="form">
+                     <input type="text" name="username" id="username" class="input" placeholder="Username" />
+                     <br />
+                     <input type="password" name="password" id="password" class="input" placeholder="Password" />
+                     <br />
+                     <div class="buttons is-right">
+                        <input type="submit" name="login_button" id="login_button" class="button is-primary has-text-primary-light is-right" value="Login" />
+                     </div>
+                </form>
+                {% if login_error %}
+                    <div class="has-text-weight-bold has-text-danger">{{ login_error }}</div>
+                {% endif %}
+            </div>
+            <button class="modal-close is-large" aria-label="close"></button>
+       </div>
+    </div>
+    <script>
+        // Get the input field
+        var input = document.getElementById("password");
+
+        // Execute a function when the user presses a key on the keyboard
+        input.addEventListener("keypress", function(event) {
+          // If the user presses the "Enter" key on the keyboard
+          if (event.key === "Enter") {
+            // Cancel the default action, if needed
+            event.preventDefault();
+            // Trigger the button element with a click
+            document.getElementById("login_button").click();
+          }
+        });
+        document.addEventListener('DOMContentLoaded', () => {
+          // Functions to open and close a modal
+          function openModal($el) {
+            $el.classList.add('is-active');
+          }
+
+          function closeModal($el) {
+            $el.classList.remove('is-active');
+          }
+
+          function closeAllModals() {
+            (document.querySelectorAll('.modal') || []).forEach(($modal) => {
+              closeModal($modal);
+            });
+          }
+
+          // Add a click event on buttons to open a specific modal
+          (document.querySelectorAll('.js-modal-trigger') || []).forEach(($trigger) => {
+            const modal = $trigger.dataset.target;
+            const $target = document.getElementById(modal);
+
+            $trigger.addEventListener('click', () => {
+              openModal($target);
+            });
+          });
+
+          // Add a click event on various child elements to close the parent modal
+          (document.querySelectorAll('.modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot .button') || []).forEach(($close) => {
+            const $target = $close.closest('.modal');
+
+            $close.addEventListener('click', () => {
+              closeModal($target);
+            });
+          });
+
+          // Add a keyboard event to close all modals
+          document.addEventListener('keydown', (event) => {
+            if(event.key === "Escape") {
+              closeAllModals();
+            }
+          });
+        });
+    </script>
+    <!-- END Modal login form  -->
+
+</body>
+
+</html>
